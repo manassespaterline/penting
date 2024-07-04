@@ -9,8 +9,9 @@ pygame.display.set_caption("Penting")
 bg_color = (48, 48, 48)
 drawing = False
 
-brushSize = 4
+brushSize = 8
 brushColor = (255, 255, 255)
+lastBrushColor = (255, 255, 255)
 canvasColor = ((48, 48, 48))
 
 sidebar = False
@@ -25,4 +26,11 @@ tool2_h = 30
 tool3_h = 30
 tool4_h = 30
 
+
+#Eraser
+eraser = False
+
+
+
+choose_brushsize = False
 
