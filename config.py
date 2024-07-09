@@ -71,6 +71,8 @@ logo = pygame.image.load('assets/icons/logo.png')
 
 
 # Language Option
-
 brasil_flag = pygame.image.load('assets/buttons/brazil_flag.png')
 usa_flag = pygame.image.load('assets/buttons/usa_flag.png')
+
+# Exit confirmation
+confirmation_img = pygame.image.load('assets/icons/confirmation.png')

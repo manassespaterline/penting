@@ -12,6 +12,7 @@ drawn_positions = []
 
 titleFont = pygame.font.Font('assets/fonts/This Cafe.otf', 38)
 normalFont = pygame.font.Font('assets/fonts/Happy Memories.otf', 24)
+creditFont = pygame.font.SysFont('none', 20)
 
 brushSize_txt = titleFont.render("1        2        4       8      16      32      64", True, 'black')
 
@@ -59,8 +60,7 @@ def menu():
                         options()
 
                     if exit_rect.collidepoint(mouse_pos):
-                        pygame.quit()
-                        sys.exit()
+                        confirm_exit()
 
         # Logo
         #pygame.draw.rect(canvas, 'white', (250, 50, 300, 200))
@@ -146,6 +146,9 @@ def menu():
         print(draw_btn_y, options_btn_y, exit_btn_y)
 
 
+        credits = creditFont.render("Made by Manassés, 2024", True, 'black')
+        canvas.blit(credits, (321, 570))
+
         #Last thing that shoul be drawn.
         canvas.blit(pointer, pointer_rect)
 
@@ -220,11 +223,60 @@ def options():
 def confirm_exit():
     running_confirm_exit = True
     while running_confirm_exit:
+
+        canvas.fill(bg_color)
+
+        mouse_pos = mouse_x, mouse_y = pygame.mouse.get_pos()
+        pointer_rect.center = (mouse_x + 10, mouse_y + 10)
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    running_confirm_exit = False
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    if yes_btn_rect.collidepoint(mouse_pos):
+                        pygame.quit()
+                        sys.exit()
+                    if no_btn_rect.collidepoint(mouse_pos):
+                        running_confirm_exit = False
 
+        confirm_exit_rect = pygame.Rect(270, 60, 300, 450)
+        pygame.draw.rect(canvas, 'white', confirm_exit_rect)
+        canvas.blit(confirmation_img, (270, 60))
+
+        confirmar_saida_txt = normalFont.render("Deseja sair?", True, 'yellow')
+        confirm_exit_txt = normalFont.render("Wanna leave?", True, 'yellow')
+        if portugues:
+            canvas.blit(confirmar_saida_txt, (370, 340))
+        if english:
+            canvas.blit(confirm_exit_txt, (360, 340))
+
+        yes_btn_rect = pygame.Rect(310, 400, 100, 50)
+        pygame.draw.rect(canvas, (29, 21, 59), yes_btn_rect)
+        no_btn_rect = pygame.Rect(430, 400, 100, 50)
+        pygame.draw.rect(canvas, (29, 21, 59), no_btn_rect)
+
+        sim_txt = normalFont.render("Sim", True, 'yellow')
+        nao_txt = normalFont.render("Não", True, 'yellow')
+
+        yes_txt = normalFont.render("Yes", True, 'yellow')
+        no_txt = normalFont.render("No", True, 'yellow')
+
+        if portugues:
+            canvas.blit(sim_txt, (343, 412))
+            canvas.blit(nao_txt, (463, 412))
+        if english:
+            canvas.blit(yes_txt, (343, 412))
+            canvas.blit(no_txt, (470, 412))
+
+
+
+        #Last thing that shoul be drawn.
+        canvas.blit(pointer, pointer_rect)
 
         pygame.display.update()
 
