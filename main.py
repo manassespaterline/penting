@@ -10,37 +10,31 @@ pygame.init()
 
 drawn_positions = []
 
-font = pygame.font.SysFont('none', 24)
-brushSize_txt = font.render("1        2        4       8      16      32      64", True, 'black')
+titleFont = pygame.font.Font('assets/fonts/This Cafe.otf', 38)
+normalFont = pygame.font.Font('assets/fonts/Happy Memories.otf', 24)
+
+brushSize_txt = titleFont.render("1        2        4       8      16      32      64", True, 'black')
 
 pygame.mouse.set_visible(False)
 
-draw_btn_y = 200
-options_btn_y = 270
-exit_btn_y = 340
-
-up_anim_draw = False
-down_anim_draw = False
-
-up_anim_options = False
-down_anim_options = False
-
-up_anim_exit = False
-down_anim_exit = False
+# Languages
+portugues = True
+english = False
 
 def menu():
 
-    global draw_btn_y
-    global up_anim_draw
-    global down_anim_draw
+    draw_btn_y = 250
+    options_btn_y = 320
+    exit_btn_y = 390
 
-    global options_btn_y
-    global up_anim_options
-    global down_anim_options
+    up_anim_draw = False
+    down_anim_draw = False
 
-    global exit_btn_y
-    global up_anim_exit
-    global down_anim_exit
+    up_anim_options = False
+    down_anim_options = False
+
+    up_anim_exit = False
+    down_anim_exit = False
 
     running_menu = True
     while running_menu:
@@ -62,34 +56,47 @@ def menu():
                         running_menu = False
 
                     if config_rect.collidepoint(mouse_pos):
-                        pass
+                        options()
 
                     if exit_rect.collidepoint(mouse_pos):
                         pygame.quit()
                         sys.exit()
 
+        # Logo
+        #pygame.draw.rect(canvas, 'white', (250, 50, 300, 200))
+        canvas.blit(logo, (250, 50))
+
         draw_rect = pygame.Rect(300, draw_btn_y, 200, 50)
         pygame.draw.rect(canvas, 'white', draw_rect)
-        canvas.blit(desenhar_btn, (300, draw_btn_y))
+        if portugues:
+            canvas.blit(desenhar_btn, (300, draw_btn_y))
+        if english:
+            canvas.blit(draw_btn, (300, draw_btn_y))
 
         config_rect = pygame.Rect(300, options_btn_y, 200, 50)
         pygame.draw.rect(canvas, 'white', config_rect)
-        canvas.blit(opcoes_btn, (300, options_btn_y))
+        if portugues:
+            canvas.blit(opcoes_btn, (300, options_btn_y))
+        if english:
+            canvas.blit(options_btn, (300, options_btn_y))
 
         exit_rect = pygame.Rect(300, exit_btn_y, 200, 50)
         pygame.draw.rect(canvas, 'white', exit_rect)
-        canvas.blit(sair_btn, (300, exit_btn_y))
+        if portugues:
+            canvas.blit(sair_btn, (300, exit_btn_y))
+        if english:
+            canvas.blit(exit_btn, (300, exit_btn_y))
 
 
         if draw_rect.collidepoint(mouse_pos):
-            if draw_btn_y == 200:
+            if draw_btn_y == 250:
                 up_anim_draw = True
                 down_anim_draw= False
-            if draw_btn_y == 210:
+            if draw_btn_y == 260:
                 up_anim_draw = False
                 down_anim_draw = True
         else:
-            draw_btn_y = 200
+            draw_btn_y = 250
             up_anim_draw = False
             down_anim_draw = False
 
@@ -101,14 +108,14 @@ def menu():
         #---------------------------
 
         if config_rect.collidepoint(mouse_pos):
-            if options_btn_y == 270:
+            if options_btn_y == 320:
                 up_anim_options = True
                 down_anim_options= False
-            if options_btn_y == 280:
+            if options_btn_y == 330:
                 up_anim_options = False
                 down_anim_options = True
         else:
-            options_btn_y = 270
+            options_btn_y = 320
             up_anim_options = False
             down_anim_options = False
 
@@ -120,14 +127,14 @@ def menu():
         #---------------------------
 
         if exit_rect.collidepoint(mouse_pos):
-            if exit_btn_y == 340:
+            if exit_btn_y == 390:
                 up_anim_exit = True
                 down_anim_exit= False
-            if exit_btn_y == 350:
+            if exit_btn_y == 400:
                 up_anim_exit = False
                 down_anim_exit = True
         else:
-            exit_btn_y = 340
+            exit_btn_y = 390
             up_anim_exit = False
             down_anim_exit = False
 
@@ -136,9 +143,88 @@ def menu():
         if down_anim_exit:
             exit_btn_y -= 0.5
 
+        print(draw_btn_y, options_btn_y, exit_btn_y)
+
 
         #Last thing that shoul be drawn.
         canvas.blit(pointer, pointer_rect)
+
+        pygame.display.update()
+
+
+def options():
+
+    global portugues
+    global english
+
+    #Pt-br
+    opcoes_title = titleFont.render("Opcoes", True, 'white')
+    linguagem_txt = normalFont.render("Idioma", True, 'white')
+
+    #En
+    options_title = titleFont.render("Options", True, 'white')
+    language_txt = normalFont.render("Language", True, 'white')
+
+    running_options = True
+    while running_options:
+
+        mouse_pos = mouse_x, mouse_y = pygame.mouse.get_pos()
+        pointer_rect.center = (mouse_x + 10, mouse_y + 10)
+
+        eraser_cursor_rect.center = (mouse_x + 10, mouse_y + 10)
+
+        canvas.fill(bg_color)
+        if portugues:
+            canvas.blit(opcoes_title, (340, 60))
+            canvas.blit(linguagem_txt, (80, 140))
+        if english:
+            canvas.blit(options_title, (340, 60))
+            canvas.blit(language_txt, (80, 140))
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    running_options = False
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    if brasil_rect.collidepoint(mouse_pos):
+                        portugues = True
+                        english = False
+                    if usa_rect.collidepoint(mouse_pos):
+                        portugues = False
+                        english = True
+
+        brasil_rect = pygame.Rect(80, 200, 100, 50)
+        usa_rect = pygame.Rect(200, 200, 100, 50)
+        pygame.draw.rect(canvas, 'green', brasil_rect)
+        if portugues:
+            pygame.draw.rect(canvas, 'black', (78, 198, 104, 54), 2)
+        canvas.blit(brasil_flag, (80, 200))
+        
+
+        pygame.draw.rect(canvas, 'blue', usa_rect)
+        if english:
+            pygame.draw.rect(canvas, 'black', (198, 198, 104, 54), 2)
+        canvas.blit(usa_flag, (200, 200))
+
+
+        #Last thing that shoul be drawn.
+        canvas.blit(pointer, pointer_rect)
+
+        pygame.display.update()
+
+def confirm_exit():
+    running_confirm_exit = True
+    while running_confirm_exit:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+
 
         pygame.display.update()
 
@@ -289,6 +375,10 @@ while running:
         if event.type == pygame.MOUSEBUTTONUP:
             if event.button == 1:
                 drawing = False
+
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                menu()
 
     if drawing:
         drawn_positions.append(((mouse_x, mouse_y), brushColor, brushSize))

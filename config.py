@@ -65,3 +65,12 @@ options_btn = pygame.image.load('assets/buttons/options_btn.png')
 
 sair_btn = pygame.image.load('assets/buttons/sair_btn.png')
 exit_btn = pygame.image.load('assets/buttons/exit_btn.png')
+
+# Logo
+logo = pygame.image.load('assets/icons/logo.png')
+
+
+# Language Option
+
+brasil_flag = pygame.image.load('assets/buttons/brazil_flag.png')
+usa_flag = pygame.image.load('assets/buttons/usa_flag.png')
